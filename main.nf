@@ -239,7 +239,7 @@ workflow {
     //Channel.fromPath(params.targets, checkIfExists: true)
     //.set {targets}
 
-    Channel.fromPath("${projectDir}/data/NPHD_panel_hg38_clean.bed", checkIfExists: true)
+    Channel.fromPath("${projectDir}/data/NPHD_panel_hg38_clean.bed2", checkIfExists: true)
     .set {targets}
  
 
