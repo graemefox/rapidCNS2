@@ -26,7 +26,7 @@ log.info """\
 
         INPUTS (scripts and other dependencies - specified in nextflow.config)
         ================================================================
-        targets           : ${targets}
+        targets           : ${params.targets}
         mgmt_pred.R       : ${params.mgmt_pred}
         mgmt BED          : ${params.mgmt_bed}
         probes            : ${params.probes}
@@ -246,53 +246,50 @@ workflow {
     Channel.fromPath(params.bedmethyl, checkIfExists: true)
     .set {bedmethyl}
 
-    Channel.fromPath(params.mgmt_bed, checkIfExists: true)
-    .set {mgmt_bed}
+    //Channel.fromPath(params.mgmt_bed, checkIfExists: true)
+    //.set {mgmt_bed}
 
 /////////////////////
     // input(s) for R_mgmt_pred process
-    Channel.fromPath(params.mgmt_pred, checkIfExists: true)
-    .set {mgmt_pred}
+    //Channel.fromPath(params.mgmt_pred, checkIfExists: true)
+    //.set {mgmt_pred}
 
-    Channel.fromPath(params.probes, checkIfExists: true)
-    .set {probes}
+    //Channel.fromPath(params.probes, checkIfExists: true)
+    //.set {probes}
 
-    Channel.fromPath(params.model, checkIfExists: true)
-    .set {model}
+    //Channel.fromPath(params.model, checkIfExists: true)
+    //.set {model}
     
 /////////////////////
     // input(s) for R_meth_classification process
-    Channel.fromPath(params.meth_class, checkIfExists: true)
-    .set {meth_class}
+    //Channel.fromPath(params.meth_class, checkIfExists: true)
+    //.set {meth_class}
 
-    Channel.fromPath(params.bedmethyl, checkIfExists: true)
-    .set {bedmethyl}
-
-    Channel.fromPath(params.topprobes, checkIfExists: true)
-    .set {topprobes}
+    //Channel.fromPath(params.topprobes, checkIfExists: true)
+    //.set {topprobes}
     
-    Channel.fromPath(params.trainingdata, checkIfExists: true)
-    .set {trainingdata}
+    //Channel.fromPath(params.trainingdata, checkIfExists: true)
+    //.set {trainingdata}
 
-    Channel.fromPath(params.arrayfile, checkIfExists: true)
-    .set {arrayfile}
+    //Channel.fromPath(params.arrayfile, checkIfExists: true)
+    //.set {arrayfile}
 
     Channel.from(params.threads)
     .set {threads}
     
 /////////////////////
     // Inputs for generating reports
-    Channel.fromPath(params.filterreport, checkIfExists: true)
-    .set {filterreport}
+    //Channel.fromPath(params.filterreport, checkIfExists: true)
+    //.set {filterreport}
 
-    Channel.fromPath(params.makereport, checkIfExists: true)
-    .set {makereport}
+    //Channel.fromPath(params.makereport, checkIfExists: true)
+    //.set {makereport}
 
-    Channel.from(params.patient, checkIfExists: true)
-    .set {patient}
+    //Channel.from(params.patient, checkIfExists: true)
+    //.set {patient}
 
-    Channel.fromPath(params.report_UKHD, checkIfExists: true)
-    .set {report_UKHD}
+    //Channel.fromPath(params.report_UKHD, checkIfExists: true)
+    //.set {report_UKHD}
 
     Channel.fromPath(params.cnvpytor_plot, checkIfExists: true)
     .set {cnvpytor_plot}
@@ -312,24 +309,24 @@ workflow {
     //vcf_intersect_ch = bedtools_intersect(compressed_variants_ch.compressed_out, sample, '_clair3_panel.vcf')
     
     // convert vcf to annovar input
-    converted_annovar_ch = convert2annovar(vcf_intersect_ch.intersect_vcf, sample, '_clair3_panel.avinput')
+    //converted_annovar_ch = convert2annovar(vcf_intersect_ch.intersect_vcf, sample, '_clair3_panel.avinput')
 
     // run table_annovar on the converted annovar input
-    clair3_annovar_ch = table_annovar(converted_annovar_ch.annovar_input, 'hg38', sample, '_clair3_panel')
+    //clair3_annovar_ch = table_annovar(converted_annovar_ch.annovar_input, 'hg38', sample, '_clair3_panel')
 
     // run bedtools intersect
-    intersect_bed_ch = bedtools_intersect2(bedmethyl, mgmt_bed, 'mgmt_5mC.hg38', 'bed')
+    //intersect_bed_ch = bedtools_intersect2(bedmethyl, mgmt_bed, 'mgmt_5mC.hg38', 'bed')
 
     // run the mgmt_pred script
-    mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
+    //mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
 
     // run the meth classification script
-    meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
+    //meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
 
     // collect report data and generate report
-    filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample)  
+    //filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample)  
 
     // NOTE - the channel inputs aren't used (report_UKHD not happy with inputs being passed as channels)
     // but they delay this being run until the inputs have been generated
-    make_report(makereport, report_UKHD, sample, params.outdir, mgmt_pred_ch.mgmt_status, filter_report_ch.clair3_report, meth_class_ch.rf_details, meth_class_ch.votes, cnvpytor_plot, mosdepth_plot)  
+    //make_report(makereport, report_UKHD, sample, params.outdir, mgmt_pred_ch.mgmt_status, filter_report_ch.clair3_report, meth_class_ch.rf_details, meth_class_ch.votes, cnvpytor_plot, mosdepth_plot)  
 }
