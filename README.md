@@ -11,6 +11,12 @@ nextflow
 docker pull graefox/rapid_cns2:latest
 ```
 
+### Clone rapidCNS repo
+```
+git clone https://github.com/graemefox/rapidCNS2.git
+```
+
+
 ### 
 Example commands:
 ```
@@ -20,7 +26,8 @@ PATIENT=JohnDoe
 OUTPUT_DIR=/path/to/directory/${SAMPLE}_output
 
 ## run the pipeline
-nextflow run graemefox/wf_rapid_cns2 -profile docker \
+nextflow run rapidCNS2/main.nf \
+-with-docker graefox/rapid_cns2:latest \
 -with-report ${OUTPUT_DIR}/${SAMPLE}_nextflow_report.html \
 --bedmethyl "/path/to/sample_01.methyl.cpg.bed.gz" \
 --variant_vcf "/path/to/sample_01.wf_snp.vcf.gz" \
