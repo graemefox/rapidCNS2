@@ -26,7 +26,7 @@ log.info """\
 
         INPUTS (scripts and other dependencies - specified in nextflow.config)
         ================================================================
-        targets           : ${targets}
+        targets           : ${params.targets}
         mgmt_pred.R       : ${params.mgmt_pred}
         mgmt BED          : ${params.mgmt_bed}
         probes            : ${params.probes}
