@@ -248,6 +248,8 @@ workflow {
 
     //Channel.fromPath(params.mgmt_bed, checkIfExists: true)
     //.set {mgmt_bed}
+    Channel.fromPath("${projectDir}/bin/mgmt_hg38.bed", checkIfExists: true)
+    .set {mgmt_bed}
 
 /////////////////////
     // input(s) for R_mgmt_pred process
@@ -309,13 +311,13 @@ workflow {
     //vcf_intersect_ch = bedtools_intersect(compressed_variants_ch.compressed_out, sample, '_clair3_panel.vcf')
     
     // convert vcf to annovar input
-    //converted_annovar_ch = convert2annovar(vcf_intersect_ch.intersect_vcf, sample, '_clair3_panel.avinput')
+    converted_annovar_ch = convert2annovar(vcf_intersect_ch.intersect_vcf, sample, '_clair3_panel.avinput')
 
     // run table_annovar on the converted annovar input
-    //clair3_annovar_ch = table_annovar(converted_annovar_ch.annovar_input, 'hg38', sample, '_clair3_panel')
+    clair3_annovar_ch = table_annovar(converted_annovar_ch.annovar_input, 'hg38', sample, '_clair3_panel')
 
     // run bedtools intersect
-    //intersect_bed_ch = bedtools_intersect2(bedmethyl, mgmt_bed, 'mgmt_5mC.hg38', 'bed')
+    intersect_bed_ch = bedtools_intersect2(bedmethyl, mgmt_bed, 'mgmt_5mC.hg38', 'bed')
 
     // run the mgmt_pred script
     //mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
