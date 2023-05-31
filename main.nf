@@ -26,7 +26,7 @@ log.info """\
 
         INPUTS (scripts and other dependencies - specified in nextflow.config)
         ================================================================
-        targets           : ${params.targets}
+        targets           : ${targets}
         mgmt_pred.R       : ${params.mgmt_pred}
         mgmt BED          : ${params.mgmt_bed}
         probes            : ${params.probes}
@@ -235,7 +235,10 @@ workflow {
     .set {outdir}
 
     // TODO  -  check this 'CLEAN' panel - is this what we want????
-    Channel.fromPath(params.targets, checkIfExists: true)
+    //Channel.fromPath(params.targets, checkIfExists: true)
+    //.set {targets}
+
+    Channel.fromPath("${projectDir}/data/NPHD_panel_hg38_clean.bed", checkIfExists: true)
     .set {targets}
 
 /////////////////////
