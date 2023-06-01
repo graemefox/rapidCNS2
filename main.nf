@@ -192,7 +192,7 @@ process make_report {
 
     script:
         """
-        Rscript ${makereport} --rf_details=${rf_details} --votes=${votes} --mutations=${clair3_report} --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${mgmt_status} --patient=${patient} --sample=${sample} --report_UKHD=${report_UKHD}
+        Rscript ${makereport} --rf_details=${rfdetails} --votes=${votes} --mutations=${clair3_report} --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${mgmt_status} --patient=${patient} --sample=${sample} --report_UKHD=${report_UKHD}
         """
         //Rscript ${makereport} --rf_details=${params.outdir}/${sample}_rf_details.tsv --votes=${params.outdir}/${sample}_votes.tsv --mutations=${params.outdir}/${sample}_clair3_report.csv --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${params.outdir}/${sample}_mgmt_status.csv --patient=JohnDoe --sample=${sample} --report_UKHD=${report_UKHD}
 }
