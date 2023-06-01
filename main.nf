@@ -24,22 +24,6 @@ log.info """\
         mosdepth_plot     : ${params.mosdepth_plot}
 
 
-        INPUTS (scripts and other dependencies - specified in nextflow.config)
-        ================================================================
-        targets           : ${params.targets}
-        mgmt_pred.R       : ${params.mgmt_pred}
-        mgmt BED          : ${params.mgmt_bed}
-        probes            : ${params.probes}
-        model             : ${params.model}
-        meth_class        : ${params.meth_class}
-        top_probes        : ${params.topprobes}
-        training_data     : ${params.trainingdata}
-        array_file        : ${params.arrayfile}
-        filter_report.R   : ${params.filterreport}
-        make_report.R     : ${params.makereport}
-        report_UKHD.Rmd   : ${params.report_UKHD}
-
-
         INPUTS (workflow parameters)
         ================================================================
         threads           : ${params.threads}
