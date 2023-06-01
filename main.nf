@@ -329,12 +329,12 @@ workflow {
     //mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
 
     // run the meth classification script
-    //meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
+    meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
 
     // collect report data and generate report
     filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample)  
 
     // NOTE - the channel inputs aren't used (report_UKHD not happy with inputs being passed as channels)
     // but they delay this being run until the inputs have been generated
-    //make_report(makereport, report_UKHD, sample, params.outdir, mgmt_pred_ch.mgmt_status, filter_report_ch.clair3_report, meth_class_ch.rf_details, meth_class_ch.votes, cnvpytor_plot, mosdepth_plot)  
+    make_report(makereport, report_UKHD, sample, params.outdir, mgmt_pred_ch.mgmt_status, filter_report_ch.clair3_report, meth_class_ch.rf_details, meth_class_ch.votes, cnvpytor_plot, mosdepth_plot)  
 }
