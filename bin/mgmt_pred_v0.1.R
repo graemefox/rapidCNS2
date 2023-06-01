@@ -25,7 +25,8 @@ load(opt$probes)
 load(opt$model)
 mgmt_meth <- read.delim(opt$input,header = F)
 mgmt_meth <- subset(mgmt_meth, V2 %in% pred_pos)
-write.csv(mgmt_meth,file=paste0(opt$out_dir,"/",opt$sample,"_mgmt_meth_to_check.csv"),row.names = T)
+## temp file added to check effect of na.rm added below
+#write.csv(mgmt_meth,file=paste0(opt$out_dir,"/",opt$sample,"_mgmt_meth_to_check.csv"),row.names = T)
 ## na.rm=T added by GF
 mgmt_average <- mean(mgmt_meth$V11, na.rm=T)
 mgmt <- data.frame(average=mgmt_average)

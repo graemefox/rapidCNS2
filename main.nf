@@ -165,7 +165,7 @@ process R_meth_classification {
 process filter_report {
     input:
         path(filterreport)
-        val(clair3_multianno)
+        path(clair3_multianno)
         val(sample)
 
     publishDir("${params.outdir}")
