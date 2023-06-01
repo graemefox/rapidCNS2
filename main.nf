@@ -243,8 +243,6 @@ workflow {
     Channel.fromPath("${projectDir}/bin/mgmt_pred_v0.1.R", checkIfExists: true)
     .set {mgmt_pred}
 
-    
-
     //Channel.fromPath(params.probes, checkIfExists: true)
     //.set {probes}
     Channel.fromPath("${projectDir}/bin/mgmt_probes.Rdata", checkIfExists: true)
@@ -259,15 +257,23 @@ workflow {
     // input(s) for R_meth_classification process
     //Channel.fromPath(params.meth_class, checkIfExists: true)
     //.set {meth_class}
+    Channel.fromPath("${projectDir}/bin/methylation_classification_nanodx_v0.1.R", checkIfExists: true)
+    .set {meth_class}
 
     //Channel.fromPath(params.topprobes, checkIfExists: true)
     //.set {topprobes}
+    Channel.fromPath("${projectDir}/bin/top_probes_hm450.Rdata", checkIfExists: true)
+    .set {topprobes}
     
     //Channel.fromPath(params.trainingdata, checkIfExists: true)
     //.set {trainingdata}
+    Channel.fromPath("${projectDir}/bin/capper_top_100k_betas_binarised.Rdata", checkIfExists: true)
+    .set {trainingdata}
 
     //Channel.fromPath(params.arrayfile, checkIfExists: true)
     //.set {arrayfile}
+    Channel.fromPath("${projectDir}/bin/HM450.hg38.manifest.gencode.v22.Rdata", checkIfExists: true)
+    .set {arrayfile}
 
     Channel.from(params.threads)
     .set {threads}
@@ -276,15 +282,21 @@ workflow {
     // Inputs for generating reports
     //Channel.fromPath(params.filterreport, checkIfExists: true)
     //.set {filterreport}
+    Channel.fromPath("${projectDir}/bin/filter_report_v0.1.R", checkIfExists: true)
+    .set {filterreport}
 
     //Channel.fromPath(params.makereport, checkIfExists: true)
     //.set {makereport}
+    Channel.fromPath("${projectDir}/bin/make_report_v0.1.R", checkIfExists: true)
+    .set {makereport}
 
-    //Channel.from(params.patient, checkIfExists: true)
-    //.set {patient}
+    Channel.from(params.patient, checkIfExists: true)
+    .set {patient}
 
     //Channel.fromPath(params.report_UKHD, checkIfExists: true)
     //.set {report_UKHD}
+    Channel.fromPath("${projectDir}/bin/Rapid_CNS2_report_UKHD_v0.1.Rmd", checkIfExists: true)
+    .set {report_UKHD}
 
     Channel.fromPath(params.cnvpytor_plot, checkIfExists: true)
     .set {cnvpytor_plot}
@@ -317,12 +329,12 @@ workflow {
     //mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
 
     // run the meth classification script
-    //meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
+    meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
 
     // collect report data and generate report
-    //filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample)  
+    filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample)  
 
     // NOTE - the channel inputs aren't used (report_UKHD not happy with inputs being passed as channels)
     // but they delay this being run until the inputs have been generated
-    //make_report(makereport, report_UKHD, sample, params.outdir, mgmt_pred_ch.mgmt_status, filter_report_ch.clair3_report, meth_class_ch.rf_details, meth_class_ch.votes, cnvpytor_plot, mosdepth_plot)  
+    make_report(makereport, report_UKHD, sample, params.outdir, mgmt_pred_ch.mgmt_status, filter_report_ch.clair3_report, meth_class_ch.rf_details, meth_class_ch.votes, cnvpytor_plot, mosdepth_plot)  
 }
