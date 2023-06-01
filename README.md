@@ -29,10 +29,10 @@ OUTPUT_DIR=/path/to/directory/${SAMPLE}_output
 nextflow run graemefox/rapidCNS2 \
 -with-docker graefox/rapid_cns2:latest \
 -with-report ${OUTPUT_DIR}/${SAMPLE}_nextflow_report.html \
---bedmethyl "/path/to/sample_01.methyl.cpg.bed.gz" \
---variant_vcf "/path/to/sample_01.wf_snp.vcf.gz" \
---cnvpytor_plot "/path/to/sample_01._cnvpytor_100k.global.0000.png" \
---mosdepth_plot "/path/to/sample_01.mosdepth.summary.txt" \
+--bedmethyl /path/to/sample_01.methyl.cpg.bed.gz \
+--variant_vcf /path/to/sample_01.wf_snp.vcf.gz \
+--cnvpytor_plot /path/to/sample_01._cnvpytor_100k.global.0000.png \
+--mosdepth_plot /path/to/sample_01.mosdepth.summary.txt \
 --outdir ${OUTPUT_DIR} \
 --sample ${SAMPLE} \
 --patient ${PATIENT}

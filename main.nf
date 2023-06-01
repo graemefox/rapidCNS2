@@ -166,6 +166,7 @@ process filter_report {
         path(filterreport)
         path(clair3_multianno)
         val(sample)
+        path(params.outdir)
     
     publishDir("${params.outdir}")
 
@@ -307,7 +308,7 @@ workflow {
     meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
 
     // collect report data and generate report
-    filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample)  
+    filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample, params.outdir)  
 
     // NOTE - the channel inputs aren't used (report_UKHD not happy with inputs being passed as channels)
     // but they delay this being run until the inputs have been generated
