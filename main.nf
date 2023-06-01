@@ -201,8 +201,6 @@ process make_report {
         """
         Rscript ${makereport} --rf_details=${params.outdir}/${sample}_rf_details.tsv --votes=${params.outdir}/${sample}_votes.tsv --mutations=${params.outdir}/${sample}_clair3_report.csv --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${params.outdir}/${sample}_mgmt_status.csv --patient=${patient} --sample=${sample} --report_UKHD=${report_UKHD}
         """
-        //
-        //Rscript ${makereport} --rf_details=${rfdetails} --votes=${votes} --mutations=${clair3_report} --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${mgmt_status} --patient=${patient} --sample=${sample} --report_UKHD=${report_UKHD}
 }
 
 ///////////////////////////
@@ -270,7 +268,7 @@ workflow {
     Channel.fromPath("${projectDir}/bin/make_report_v0.1.R", checkIfExists: true)
     .set {makereport}
 
-    Channel.from(params.patient, checkIfExists: true)
+    Channel.from(params.patient)
     .set {patient}
 
     Channel.fromPath("${projectDir}/bin/Rapid_CNS2_report_UKHD_v0.1.Rmd", checkIfExists: true)
