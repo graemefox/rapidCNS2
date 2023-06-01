@@ -126,6 +126,8 @@ process R_mgmt_pred {
         path(model)
         val(sample)
         path(params.outdir)
+    
+    publishDir("${params.outdir}")
 
     output:
         val '*mgmt_status.csv', emit: mgmt_status
@@ -147,6 +149,8 @@ process R_meth_classification {
         path(arrayfile)
         val(threads)
 
+    publishDir("${params.outdir}")
+
     output:
         val "*_rf_details.tsv", emit: rf_details
         val "*_votes.tsv", emit: votes
@@ -162,6 +166,8 @@ process filter_report {
         path(filterreport)
         path(clair3_multianno)
         val(sample)
+    
+    publishDir("${params.outdir}")
 
     output:
         val "*_clair3_report.csv", emit: clair3_report
@@ -192,9 +198,10 @@ process make_report {
 
     script:
         """
-        Rscript ${makereport} --rf_details=${rfdetails} --votes=${votes} --mutations=${clair3_report} --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${mgmt_status} --patient=${patient} --sample=${sample} --report_UKHD=${report_UKHD}
+        Rscript ${makereport} --rf_details=${params.outdir}/${sample}_rf_details.tsv --votes=${params.outdir}/${sample}_votes.tsv --mutations=${params.outdir}/${sample}_clair3_report.csv --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${params.outdir}/${sample}_mgmt_status.csv --patient=${patient} --sample=${sample} --report_UKHD=${report_UKHD}
         """
-        //Rscript ${makereport} --rf_details=${params.outdir}/${sample}_rf_details.tsv --votes=${params.outdir}/${sample}_votes.tsv --mutations=${params.outdir}/${sample}_clair3_report.csv --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${params.outdir}/${sample}_mgmt_status.csv --patient=JohnDoe --sample=${sample} --report_UKHD=${report_UKHD}
+        //
+        //Rscript ${makereport} --rf_details=${rfdetails} --votes=${votes} --mutations=${clair3_report} --coverage=${mosdepth_plot} --output_dir=${params.outdir}/${sample}_report/ --cnv_plot=${cnvpytor_plot} --prefix=${sample} --mgmt=${mgmt_status} --patient=${patient} --sample=${sample} --report_UKHD=${report_UKHD}
 }
 
 ///////////////////////////
