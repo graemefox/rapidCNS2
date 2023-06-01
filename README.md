@@ -11,9 +11,9 @@ nextflow
 docker pull graefox/rapid_cns2:latest
 ```
 
-### Clone rapidCNS repo
+### Pull latest workflow
 ```
-git clone https://github.com/graemefox/rapidCNS2.git
+nextflow pull graemefox/rapidCNS2
 ```
 
 
@@ -26,7 +26,7 @@ PATIENT=JohnDoe
 OUTPUT_DIR=/path/to/directory/${SAMPLE}_output
 
 ## run the pipeline
-nextflow run rapidCNS2/main.nf \
+nextflow run graemefox/rapidCNS2 \
 -with-docker graefox/rapid_cns2:latest \
 -with-report ${OUTPUT_DIR}/${SAMPLE}_nextflow_report.html \
 --bedmethyl "/path/to/sample_01.methyl.cpg.bed.gz" \
