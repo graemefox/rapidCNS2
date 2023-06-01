@@ -174,7 +174,7 @@ process filter_report {
     
     script:
         """
-        Rscript ${filterreport} --input ${clair3_multianno} --output ${sample}_clair3_report.csv --sample ${sample}
+        Rscript ${filterreport} --input ${clair3_multianno} --output ${params.outdir}/${sample}_clair3_report.csv --sample ${sample}
         """        
 }
 
