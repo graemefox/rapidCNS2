@@ -240,6 +240,10 @@ workflow {
     // input(s) for R_mgmt_pred process
     //Channel.fromPath(params.mgmt_pred, checkIfExists: true)
     //.set {mgmt_pred}
+    Channel.fromPath("${projectDir}/bin/mgmt_pred_v0.1.R", checkIfExists: true)
+    .set {mgmt_pred}
+
+    
 
     //Channel.fromPath(params.probes, checkIfExists: true)
     //.set {probes}
