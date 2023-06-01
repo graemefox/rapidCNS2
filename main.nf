@@ -329,7 +329,7 @@ workflow {
     //mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
 
     // run the meth classification script
-    meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
+    //meth_class_ch = R_meth_classification(meth_class, sample, params.outdir, bedmethyl, topprobes, trainingdata, arrayfile, threads)
 
     // collect report data and generate report
     filter_report_ch = filter_report(filterreport, clair3_annovar_ch.clair3_output, sample)  
