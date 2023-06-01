@@ -22,10 +22,6 @@ log.info """\
         patient           : ${params.patient}
         cnvpytor_plot     : ${params.cnvpytor_plot}
         mosdepth_plot     : ${params.mosdepth_plot}
-
-
-        INPUTS (workflow parameters)
-        ================================================================
         threads           : ${params.threads}
         ================================================================
 
@@ -112,6 +108,8 @@ process table_annovar {
         val(annovar_ver)
         val(output_file)
         val(ext)
+    
+    publishDir("${params.outdir}")
 
     output:
         path "*_multianno.csv", emit: clair3_output
@@ -168,15 +166,17 @@ process filter_report {
         path(clair3_multianno)
         val(sample)
 
-    publishDir("${params.outdir}")
+    //publishDir("${params.outdir}")
 
     output:
         val "*_clair3_report.csv", emit: clair3_report
     
     script:
         """
-        Rscript ${filterreport} --input ${clair3_multianno} --output ${params.outdir}/${sample}_clair3_report.csv --sample ${sample}
+        Rscript ${filterreport} --input ${clair3_multianno} --output ${sample}_clair3_report.csv --sample ${sample}
         """
+        //Rscript ${filterreport} --input ${clair3_multianno} --output ${params.outdir}/${sample}_clair3_report.csv --sample ${sample}
+        
 }
 
 process make_report {
