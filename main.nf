@@ -138,6 +138,7 @@ process R_mgmt_pred {
         """
         Rscript ${mgmt_pred} --input ${intersect_bed} --probes ${probes} --model ${model} --out_dir ${params.outdir} --sample ${sample} 
         """
+        //Rscript ${mgmt_pred} --input ${intersect_bed} --probes ${probes} --model ${model} --out_dir ${params.outdir} --sample ${sample} 
 }
 
 process R_meth_classification {
@@ -242,9 +243,13 @@ workflow {
 
     //Channel.fromPath(params.probes, checkIfExists: true)
     //.set {probes}
+    Channel.fromPath("${projectDir}/bin/mgmt_probes.Rdata", checkIfExists: true)
+    .set {probes}
 
     //Channel.fromPath(params.model, checkIfExists: true)
     //.set {model}
+    Channel.fromPath("${projectDir}/bin/mgmt_137sites_mean_model.Rdata", checkIfExists: true)
+    .set {model}
     
 /////////////////////
     // input(s) for R_meth_classification process
@@ -304,6 +309,7 @@ workflow {
     intersect_bed_ch = bedtools_intersect2(bedmethyl, mgmt_bed, 'mgmt_5mC.hg38', 'bed')
 
     // run the mgmt_pred script
+    mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
     //mgmt_pred_ch = R_mgmt_pred(mgmt_pred, intersect_bed_ch.intersect_bed, probes, model, sample, params.outdir)
 
     // run the meth classification script
