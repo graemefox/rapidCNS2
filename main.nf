@@ -62,18 +62,21 @@ process cnvpytor{
         val(threads)
 
     output:
-        path "*.cnvpytor_100k.global.0000.png", emit: cnvpytor_plot
+        //path "*.cnvpytor_100k.global.0000.png", emit: cnvpytor_plot
 
     script:
         """
-        cnvpytor -root ${sample}_CNV.pytor -rd ${input_bam.toRealPath()} -j ${threads} # 17 mins
-        #cnvpytor -root ${sample}_CNV.pytor -his 1000 10000 100000 -j ${threads} # 4 mins
-        #cnvpytor -root ${sample}_CNV.pytor -partition 1000 10000 100000 -j ${threads} # SLOW
-        #cnvpytor -root ${sample}_CNV.pytor -call 1000 -j ${threads} > ${sample}.cnvpytor.calls.1000.tsv
-        #cnvpytor -root ${sample}_CNV.pytor -call 10000 -j ${threads} > ${sample}.cnvpytor.calls.10000.tsv
-        #cnvpytor -root ${sample}_CNV.pytor -call 100000 -j ${threads} > ${sample}.cnvpytor.calls.100000.tsv
-        #cnvpytor -root ${sample}_CNV.pytor -plot manhattan 100000 -chrom chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19 chr20 chr21 chr22 -o ${sample}_cnvpytor_100k.png
+        
         """
+        // cnvpytor -root ${sample}_CNV.pytor -rd ${input_bam.toRealPath()} -j ${threads} # 17 mins
+
+        //###cnvpytor -root ${sample}_CNV.pytor -rd ${input_bam} # 17 mins
+        //#cnvpytor -root ${sample}_CNV.pytor -his 1000 10000 100000 -j ${threads} # 4 mins
+        //#cnvpytor -root ${sample}_CNV.pytor -partition 1000 10000 100000 -j ${threads} # SLOW
+        //#cnvpytor -root ${sample}_CNV.pytor -call 1000 -j ${threads} > ${sample}.cnvpytor.calls.1000.tsv
+        //#cnvpytor -root ${sample}_CNV.pytor -call 10000 -j ${threads} > ${sample}.cnvpytor.calls.10000.tsv
+        //#cnvpytor -root ${sample}_CNV.pytor -call 100000 -j ${threads} > ${sample}.cnvpytor.calls.100000.tsv
+        //#cnvpytor -root ${sample}_CNV.pytor -plot manhattan 100000 -chrom chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19 chr20 chr21 chr22 -o ${sample}_cnvpytor_100k.png
 }
 
 process vcftools {
@@ -345,7 +348,7 @@ workflow {
     // TODO  -  if running the wf-human-variation first, it is very likely that this BAM has already been indexed
     // TODO  -  allow the previous script to pass the index file, if possible
     
-    //samtools_index_ch = samtools_index(input_bam)
+    samtools_index_ch = samtools_index(input_bam)
 
     // mosdepth coverage plots
     // TODO this has already been run by the previous script - there are two however, one from the
@@ -356,9 +359,9 @@ workflow {
     
 
     // run CNVpytor
-    cnvpytor_ch = cnvpytor(sample, input_bam, threads)
+    //cnvpytor_ch = cnvpytor(sample, input_bam, threads)
     // the QDNA plot, however, is looking at the full genome rather than just the target sites in the bed
-    // bring in both the QDNA plot and the CNVpytor plot
+    // bring in both the QDNA plot and the CNVpytor plot/data/test_data/graeme/rapid_cns2/rapidCNS2
 
     // run annovar
     //variants_ch = vcftools(variant_vcf, sample)
@@ -395,6 +398,6 @@ workflow {
 }
 
 /// TODO - need so sort something for the CNVpytor plot
-// either run CNVpytor, or collect something similar from QDNA in human-variation
+// either run CNVpytor, or collect somethinge similar from QDNA in human-variation
 // mosdepth has already been run by human-variation
 // input bam has already been indexed by hv_cns2
