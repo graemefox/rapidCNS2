@@ -17,8 +17,7 @@ nextflow pull graemefox/rapidCNS2
 ```
 
 
-### 
-Example commands:
+### Example commands:
 ```
 ## define sample name, ID and output directory:
 SAMPLE=sample_01
