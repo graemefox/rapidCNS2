@@ -46,7 +46,6 @@ sample <- opt$sample
 # add option for report_UKHD above
 report_UKHD <- opt$report_UKHD
 
-
 #render("/Rapid_CNS2_report_UKHD.Rmd", 
 render(report_UKHD, 
        output_format = "html_document", 
